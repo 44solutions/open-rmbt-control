@@ -160,3 +160,4 @@ Alternatively, log can be sent to Logstash on a remote ELK instance
 Again, make sure the file `etc/tomcat10/logback-control.xml` is owned by`tomcat`.
 
 
+
