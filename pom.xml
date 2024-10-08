@@ -8,7 +8,7 @@
     <artifactId>rtr</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>rtr</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <description>RTR backend project</description>
 
     <parent>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
@@ -233,11 +233,11 @@
             <artifactId>gt-main</artifactId>
             <version>25.2</version>
         </dependency>
-        <dependency>
-            <groupId>net.bull.javamelody</groupId>
-            <artifactId>javamelody-spring-boot-starter</artifactId>
-	    <version>2.0.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>net.bull.javamelody</groupId>-->
+<!--            <artifactId>javamelody-spring-boot-starter</artifactId>-->
+<!--	    <version>2.0.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
@@ -288,8 +288,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <compilerVersion>17</compilerVersion>
+                    <source>17</source>
+                    <target>17</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -299,7 +300,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${org.projectlombok.version}</version>
+                            <version>1.18.30</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -310,19 +311,6 @@
                 <version>6.0.0</version>
                 <configuration>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>me.ccampo</groupId>
-                <artifactId>git-version-maven-plugin</artifactId>
-                <version>0.1.0</version> <!-- Use the latest stable version if possible -->
-                <extensions>true</extensions>
-                <configuration>
-                    <strategy hint="git">
-                        <dirtyQualifier>dirty</dirtyQualifier>
-                    </strategy>
-                    <generateTemporaryFile>false</generateTemporaryFile>
-                    <deleteTemporaryFile>true</deleteTemporaryFile>
                 </configuration>
             </plugin>
         </plugins>

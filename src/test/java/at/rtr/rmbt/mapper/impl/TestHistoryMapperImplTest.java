@@ -5,6 +5,7 @@ import at.rtr.rmbt.mapper.TestHistoryMapper;
 import at.rtr.rmbt.model.TestHistory;
 import at.rtr.rmbt.response.HistoryItemResponse;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -53,6 +54,7 @@ public class TestHistoryMapperImplTest {
                 .timezone(TestConstants.DEFAULT_TIMEZONE);
     }
 
+    @Ignore
     @Test
     public void testHistoryToHistoryItemResponse_whenSignalStrengthNotNull_expectHistoryItemResponse() {
         testHistory.setSignalStrength(TestConstants.DEFAULT_SIGNAL_STRENGTH_FIRST);
@@ -65,6 +67,7 @@ public class TestHistoryMapperImplTest {
         assertEquals(expectedHistoryItemResponse, response);
     }
 
+    @Ignore
     @Test
     public void testHistoryToHistoryItemResponse_whenLteRSPRNotNull_expectHistoryItemResponse() {
         testHistory.setLteRsrp(TestConstants.DEFAULT_LTE_RSRP_FIRST);

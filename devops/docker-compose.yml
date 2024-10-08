@@ -5,36 +5,45 @@ volumes:
 
 networks:
   elastic:
+  db:
 
 services:
   backend:
     build:
-      context: ./backend
+#      context: ./backend
       args:
-        spring_profiles: ${BACKEND_PROFILE}
+        spring_profiles: prod
     container_name: rtr-backend
     restart: unless-stopped
     networks:
       - elastic
+      - db
     ports:
-      - "${BACKEND_PORT}:8080"
+      - "8080:8080"
+      #- "${BACKEND_PORT}:8080"
     logging:
       driver: json-file
       options:
-        max-size: '${COMPOSE_LOG_FILE_SIZE}'
-        max-file: '${COMPOSE_LOG_FILE_COUNT}'
+        max-size: 10 #'${COMPOSE_LOG_FILE_SIZE}'
+        max-file: 10 #'${COMPOSE_LOG_FILE_COUNT}'
         compress: 'true'
     environment:
-      CONTROL_SERVER_HOST: ${CONTROL_SERVER_HOST}
-      DB_NAME: ${BACKEND_DB_NAME}
-      DB_PASSWORD: ${BACKEND_DB_PASSWORD}
-      DB_PORT: ${BACKEND_DB_PORT}
-      DB_URI: ${BACKEND_DB_URI}
-      DB_USER: ${BACKEND_DB_USER}
-      SPRING_PROFILE: ${BACKEND_PROFILE}
+      DB_HOST: db
+      DB_NAME: rmbt
+      DB_PASSWORD: pass
+      DB_PORT: 5432
+      DB_URI: jdbc:postgresql://db:5432/rmbt
+      DB_USER: sa
+      SPRING_PROFILE: prod
+      LOG_HOST: logstash
+      LOG_PORT: 5000
+      CONTROL_ALLOWED_ORIGIN: http://localhost:8080/RMBTControlServer/**
+      CONTROL_SERVER_URL: http://localhost:8080/RMBTControlServer
+      HOST_ID: server1
+
   ####### ELK
   kibana:
-    image: library/kibana:7.2.0
+    image: library/kibana:7.17.24
     container_name: kibana
     restart: unless-stopped
     networks:
@@ -44,14 +53,14 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: '${COMPOSE_LOG_FILE_SIZE}'
-        max-file: '${COMPOSE_LOG_FILE_COUNT}'
+        max-size: 10 # '${COMPOSE_LOG_FILE_SIZE}'
+        max-file: 10 # '${COMPOSE_LOG_FILE_COUNT}'
         compress: 'true'
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
 
   logstash:
-    image: logstash:7.2.0
+    image: logstash:7.17.24
     container_name: logstash
     restart: unless-stopped
     ports:
@@ -64,8 +73,8 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: '${COMPOSE_LOG_FILE_SIZE}'
-        max-file: '${COMPOSE_LOG_FILE_COUNT}'
+        max-size: 10 #'${COMPOSE_LOG_FILE_SIZE}'
+        max-file: 10 # '${COMPOSE_LOG_FILE_COUNT}'
         compress: 'true'
     environment:
       LS_JAVA_OPTS: '-Xms128m -Xmx256m'
@@ -73,7 +82,7 @@ services:
       ELASTICSEARCH_PORT: 9200
 
   elasticsearch:
-    image: elasticsearch:7.2.0
+    image: elasticsearch:7.17.24
     container_name: elasticsearch
     restart: unless-stopped
     networks:
@@ -85,9 +94,20 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: '${COMPOSE_LOG_FILE_SIZE}'
-        max-file: '${COMPOSE_LOG_FILE_COUNT}'
+        max-size: 10
+        max-file: 10
         compress: 'true'
     environment:
       discovery.type: single-node
       ES_JAVA_OPTS: '-Xms256m -Xmx512m'
+
+  db:
+    image: postgres
+    networks:
+      - db
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: rmbt
+    volumes:
+      - ./data:/var/lib/postgresql/data

@@ -10,7 +10,7 @@ spring:
     poolSize: 20
     minIdle: 1
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5431/rtr
+    url: jdbc:postgresql://localhost:5431/rtr
     username: rtr
     password: password
 #    tomcat:
@@ -19,8 +19,8 @@ spring:
 #      validation-query: SELECT 1
   jpa:
     hibernate:
-      ddl-auto: none
-    show-sql: false
+      ddl-auto: update
+    show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: false
@@ -31,7 +31,7 @@ RMBT_SECRETKEY: RMBT_SECRETKEY
 auth0:
   issuer: https://auth.a2332751-f1b8-4d26-8291-dfaef9094f33.netztest.at/
   apiAudience: https://netztest.at
-origin: https://www.netztest.at
+#origin: http://localhost:8080/
 app:
   rmbt:
     accuracyDetailLimit: 10000
@@ -64,7 +64,7 @@ app:
       -
 application-version:
   host: rtr-api-dev
-  server-url: http://localhost:80/RMBTControlServer
+  server-url: http://localhost:8080
 
 elastic-index:
   basicTenantIndexes:
@@ -129,9 +129,9 @@ spring:
     poolSize: 20
     minIdle: 1
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://${CONTROL_DB_HOST}:${CONTROL_DB_PORT}/${CONTROL_DB_NAME}
-    username: ${CONTROL_DB_USER}
-    password: ${CONTROL_DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 #    tomcat:
 #      test-while-idle: true
 #      test-on-borrow: true
@@ -139,7 +139,7 @@ spring:
 
 application-version:
   host: ${HOST_ID}
-  server-url: ${CONTROL_SERVER_URL}
+  server-url: https://localhost:8080/RMBTControlServer # ${CONTROL_SERVER_URL}
 
 logging:
     config: ${LOGGING_CONFIG_FILE:classpath:logback.xml}

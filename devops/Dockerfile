@@ -1,6 +1,6 @@
-ARG TAG=jre-13.0.2_8-debianslim
+#ARG TAG=jre-13.0.2_8-debianslim
 
-FROM adoptopenjdk/openjdk13:${TAG}
+FROM openjdk:17-jdk-slim
 
 ARG OPENPORT=8080
 ARG TOMCAT_JAR=rtr-1.0-SNAPSHOT.jar
